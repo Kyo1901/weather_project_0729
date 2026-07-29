@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,13 @@
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     <!-- Eric Meyer CSS Reset -->
     <link rel="stylesheet" href="./css/reset.css">
-    
+
     <!-- 사용자 정의 스타일 -->
     <link rel="stylesheet" href="./css/style.css">
 
@@ -20,11 +23,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <!-- API 를 통해 날씨 데이터를 저장하여 날씨에 따른 배경을 설정 -->
+
 <body data-weather="sunny">
     <!-- id 속성의 식별자 작성 명명  -->
     <!--  - kebab : CSS 에서 사용할 요소 -->
     <!--  - camel : JS 에서 사용할 요소 -->
-    
+
     <!-- 공통 헤더 -->
     <section class="hero-photo">
         <div class="hero-inner">
@@ -35,5 +39,47 @@
             </form>
         </div>
     </section>
+
+    <!-- 홈 화면: 주요 도시 리스트 + 세계 리스트 -->
+    <div id="screen-home" class="screen">
+        <div class="page-content">
+            <div class="page-content-inner">
+                <div class="home-top">
+                    <!-- 내 위치 날씨 -->
+                    <section id="myLocation" class="my-location">
+                        <button type="button" id="myLocationBtn" class="my-location-btn">
+                            내 위치 날씨 보기
+                        </button>
+                        <p class="my-location-hint">
+                            위치를 허용하면내 동내의 현재 날씨가 여기에 표시돼요.
+                        </p>
+                    </section>
+
+                    <!-- 전국 최고/최저 기온 -->
+                    <div class="home-top-right">
+                        <h2 class="section-title">오늘의 전국 최고/최저</h2>
+                        <div id="extremRow" class="extream-row">
+                            <button type="button" class="extream-card">
+                                <span class="extream-label">오늘 가장 더운 곳</span>
+                                <span class="extream-value">강릉 39°</span>
+                            </button>
+                            <button type="button" class="extream-card">
+                                <span class="extream-label">오늘 가장 추운 곳</span>
+                                <span class="extream-value">대전 23°</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-home"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 디테일 화면: 주간 날씨 + 시간별 날씨 -->
+    <div id="screen-detail" class="screen" hidden></div>
+
 </body>
+
 </html>
