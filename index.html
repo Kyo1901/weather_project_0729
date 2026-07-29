@@ -41,7 +41,7 @@
     </section>
 
     <!-- 홈 화면: 주요 도시 리스트 + 세계 리스트 -->
-    <div id="screen-home" class="screen">
+    <div id="screen-home" class="screen" hidden>
         <div class="page-content">
             <div class="page-content-inner">
                 <div class="home-top">
@@ -107,13 +107,32 @@
                     </button>
                 </div>
 
-                <div class="footer-home"></div>
+                <div class="footer-home">
+                    <p>Data by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a></p>
+                    <p>미래유망 강사 김기호</p>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- 디테일 화면: 주간 날씨 + 시간별 날씨 -->
-    <div id="screen-detail" class="screen" hidden></div>
+    <div id="screen-detail" class="screen screen-detail">
+        <header class="detail-header">
+            <button type="button" id="backBtn" class="back-btn">← 목록으로</button>
+        </header>
+
+        <div class="app">
+            <main>
+                <!-- 로딩/에러 관련 메세지 -->
+                <!-- role="status": 내용이 바뀌면 스크린리더가 자동으로 읽어줌 -->
+                <p id="statusMsg" class="status-msg" role="status" hidden>
+                    날씨 정보를 불러는 중...
+                </p>
+
+
+            </main>
+        </div>
+    </div>
 
 </body>
 
