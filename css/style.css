@@ -138,7 +138,7 @@ body {
     font-weight: 500;
     font-size: var(--fs-base);
     cursor: pointer;
-    transition: 200ms;
+    transition: opacity 200ms;
 }
 .search-form button:hover { opacity: 0.85; }
 
@@ -168,7 +168,7 @@ body {
     font-size: var(--fs-md);
     color: var(--color-ink-sub);
     cursor: pointer;
-    transition: 200ms;
+    transition: background color 200ms;
 }
 .my-location-btn:hover {
     background-color: rgba(255, 255, 255, 0.7);
@@ -202,7 +202,7 @@ body {
     font-family: inherit;
     text-align: left;
     cursor: pointer;
-    transition: 150ms;
+    transition: transform box-shadow 150ms;
 }
 .extream-card:hover {
     transform: translateY(-1px);
@@ -241,7 +241,7 @@ body {
     font-family: inherit;
     text-align: left;
     cursor: pointer;
-    transition: 150ms;
+    transition:transform box-shadow 150ms;
 }
 .city-row:hover {
     transform: translateY(-1px);
@@ -328,6 +328,8 @@ body {
     min-height: 44px;
     border-radius: 1000px;
     cursor: pointer;
+
+    transition: background 200ms;
 }
 
 .back-btn:hover {
@@ -366,7 +368,7 @@ body {
     min-height: 44px;
     border-radius: 1000px;
     cursor: pointer;
-    transition: 200ms;
+    transition: background color 2000ms;
 }
 .tab-btn:hover{
     background-color: var(--color-white);
