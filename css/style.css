@@ -161,7 +161,7 @@ body {
 /* 내 위치 날씨 */
 .my-location-btn {
     width: 100%;
-    border: 1px dashed rgba(37, 49, 60, 0.3);
+    border: 1px dashed rgba(38, 49, 60, 0.3);
     background-color: transparent;
     border-radius: var(--radius-md);
     padding: var(--sp-lg);
@@ -206,7 +206,7 @@ body {
 }
 .extream-card:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(37, 49, 60, 0.12);
+    box-shadow: 0 8px 20px rgba(38, 49, 60, 0.12);
 }
 
 .extream-label { 
@@ -219,4 +219,62 @@ body {
     margin-top: var(--sp-sm);
     font-size: var(--fs-lg);
     font-weight: 700;
+}
+
+/* 주요 도시 리스트 */
+.city-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+}
+
+.city-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--sp-lg) var(--sp-xl);
+    box-shadow: 0 4px 14px rgba(38, 49, 60, 0.08);
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: 150ms;
+}
+.city-row:hover {
+    transform: translateY(-1px);
+    box-shadow: rgba(38, 49, 60, 0.12);
+}
+.city-row-name {
+    font-size: var(--fs-base);
+    font-weight: 700;
+}
+.city-row-weather {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+}
+.city-row-icon {
+    width: 36px;
+    height: 36px;
+}
+.city-row-temp {
+    font-size: var(--fs-lg);
+    font-weight: 800;
+    min-width: 40px;
+    text-align: right;
+}
+.city-row-chevron {
+    font-size: var(--fs-lg);
+    line-height: 1;
+    color: var(--color-ink-sub);
+}
+
+/* 모바일 환경에서의 터치 반응 */
+.extream-card:active,
+.city-row:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(38, 49, 60, 0.1);
 }
