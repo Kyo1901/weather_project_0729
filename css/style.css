@@ -487,3 +487,16 @@ body {
 .air-badge.grade-normal     { background: rgba(64, 120, 200, 0.15); color: #3a6fc0; }
 .air-badge.grade-bad        { background: rgba(230, 150, 40, 0.15); color: #c07a10; }
 .air-badge.grade-verybad    { background: rgba(210, 60, 60, 0.15); color: #c03030; }
+
+
+/* 푸터 */
+.footer-detail {
+    text-align: center;
+    font-size: var(--fs-xs);
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    line-height: 1.6;
+}
+.footer-detail a {
+    color: var(--color-white);
+}
