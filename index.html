@@ -136,7 +136,7 @@
                 </div>
 
                 <!-- 탭 1: 주간 날씨(현재 날씨 카드 기본 골격) -->
-                <div id="panel-summary" class="tab-pannel" role="tabpanel">
+                <div id="panel-summary" class="tab-pannel" role="tabpanel" hidden>
                     <section id="currentCard" class="current-card">
                         <div id="currentContent" class="current-content">
                             <h2 id="loctaionName" class="location">서울</h2>
@@ -182,6 +182,57 @@
                             </div>
                         </div>
                     </section>
+
+                    <!-- 주간 날씨 정보(JS 추가 예정) -->
+                    <section id="forecastRow" class="forecast-row"></section>
+                </div>
+
+                <!-- 탭 2: 시간별 날씨 -->
+                <!--  - 임시 데이터 2개 -->
+                <div id="panel-hourly" class="tab-pannel" role="tabpanel">
+                    <section class="hourly-list-card">
+                        <div id="hourlyList" class="hourly-list">
+                            <!-- 첫 번째 시간대 정보 -->
+                            <div class="hour-row">
+                                <button type="button" class="hour-row-head" aria-expanded="false">
+                                    <span class="hour-main">
+                                        <span class="hour-time-col">
+                                            <span class="hour-time">오후 1시</span>
+                                            <span class="hour-desc">맑음</span>
+                                        </span>
+                                        <img src="icons/clear-day.svg" alt="" class="hour-icon">
+                                        <span class="hour-temp">30°</span>
+                                        <span class="hour-realfeel">체감 35°</span>
+                                        <span class="hour-precip">☔ 0%</span>
+                                    </span>
+
+                                    <span class="hour-side">
+                                        <span class="hour-chevron">▼</span>
+                                    </span>
+                                </button>
+                            </div>
+                            
+                            <!-- 두 번째 시간대 정보 -->
+                            <div class="hour-row">
+                                <button type="button" class="hour-row-head" aria-expanded="false">
+                                    <span class="hour-main">
+                                        <span class="hour-time-col">
+                                            <span class="hour-time">오후 2시</span>
+                                            <span class="hour-desc">구름 조금</span>
+                                        </span>
+                                        <img src="icons/cloudy.svg" alt="" class="hour-icon">
+                                        <span class="hour-temp">30°</span>
+                                        <span class="hour-realfeel">체감 35°</span>
+                                        <span class="hour-precip">☔ 10%</span>
+                                    </span>
+
+                                    <span class="hour-side">
+                                        <span class="hour-chevron">▼</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </main>
 
@@ -189,7 +240,6 @@
                 <p>Data by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a></p>
                 <p>미래유망 강사 김기호</p>
             </div>
-
         </div>
     </div>
 

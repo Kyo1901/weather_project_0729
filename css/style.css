@@ -290,10 +290,16 @@ body {
     color: var(--color-ink);
 }
 
+/* ---------------------------------------------------------- */
+/* hidden 속성 강제 적용 */
+/*  - .tab-bar, .tab-pannel 에 display:flex; 를 지정했기 때문에 */
+/*    hidden 속성이 우선 순위에 밀려 숨겨지지 않는다. */
+/* ---------------------------------------------------------- */
+.sreen[hidden] { display: none; }
+
 /* ------------------------------------------------------ */
 /* 디테일 화면 */
 /* ------------------------------------------------------ */
-
 .screen-detail {
     display: flex;
     flex-direction: column;
@@ -385,6 +391,14 @@ body {
     flex-direction: column;
     gap: var(--sp-xl);
 }
+
+/* ---------------------------------------------------------- */
+/* hidden 속성 강제 적용 */
+/*  - .tab-bar, .tab-pannel 에 display:flex; 를 지정했기 때문에 */
+/*    hidden 속성이 우선 순위에 밀려 숨겨지지 않는다. */
+/* ---------------------------------------------------------- */
+.tab-bar[hidden],
+.tab-pannel[hidden] { display: none; }
 
 /* 현재 날씨 카드 */
 .current-card {
@@ -488,6 +502,86 @@ body {
 .air-badge.grade-bad        { background: rgba(230, 150, 40, 0.15); color: #c07a10; }
 .air-badge.grade-verybad    { background: rgba(210, 60, 60, 0.15); color: #c03030; }
 
+
+
+/* 시간별 날씨 리스트 */
+.hourly-list-card {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-sm) var(--sp-xl);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.hour-row:not(:last-child) {
+    border-bottom: 1px solid rgba(38, 49, 60, 0.1);
+}
+
+.hour-row-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-sm);
+    background: transparent;
+    border: none;
+    padding: var(--sp-lg) 0;
+    font-family: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.hour-main {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-md);
+}
+
+.hour-time-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 64px;
+}
+.hour-time { 
+    font-size: var(--fs-md);
+    font-weight: 700;
+}
+.hour-desc { 
+    font-size: var(--fs-sm);
+    color: var(--color-ink-sub);
+}
+.hour-icon {
+    width: 36px;
+    height: 36px;
+}
+.hour-temp {
+    font-size: var(--fs-lg);
+    font-weight: 800;
+    min-width: 36px;
+}
+.hour-side {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+}
+
+.hour-realfeel,
+.hour-precip {
+    font-size: var(--fs-sm);
+    color: var(--color-ink-sub);
+    white-space: nowrap;
+}
+
+.hour-chevron {
+    font-size: var(--fs-base);
+    color: var(--color-ink-sub);
+    display: inline-block;
+    transition: transform 200ms;
+}
+
+.hour-row.open .hour-chevron { 
+    transform: rotate(180deg);
+}
 
 /* 푸터 */
 .footer-detail {
