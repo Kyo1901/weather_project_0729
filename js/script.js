@@ -67,13 +67,56 @@ $(function () {
             timezone:"auto"
         })
         .done(function(data) { 
-            showStatus("정상적으로 불러왔습니다!");
+            // 정상적으로 불러온 경우
+            renderWeather(data, displayName);
+            showResult();
         })
         .fail(function() { 
+            // 불어오기가 실패한 경우
             showError("날씨 정보를 가져오지 못했습니다. 잠시후 다시 시도해주세요.");
         })
     }
+
+    // ----------------------------------------
+    // 받아온 데이터 화면에 표시
+    // ----------------------------------------
+    function renderWeather(data, displayName) {
+        // 현재 날씨
+        const cur = data.current;
+        const info = getWeatherInfo(cur.weather_code);
+        
+        $("body").attr("data-weather", info.theme);
+       
+        $('#locationName').text(displayName);
+        // 2026-07-30T15:05 → "2026-07-30 15:05기준"
+        $('#updatedTime').text(cur.time.replace('T', ' ') + ' 기준');
+        
+        $('#weatherIcon').attr('src', info.icon);
+        $('#temperature').text(Math.round(cur.temperature_2m) + '°');
+        $('#weatherDesc').text(info.label);
+        $('#feelsLike').text(Math.round(cur.apparent_temperature) + '°');
+        $('#humidity').text(Math.round(cur.relative_humidity_2m) + '%');
+        $('#windSpeed').text(Math.round(cur.wind_speed_10m) + ' km/h');
+        $('#precipProb').text(safeRound(data.daily.precipitation_probability_max[0], '%'));
+        $('#sunriseTime').text(formatClock(data.daily.sunrise[0]));
+        $('#sunsetTime').text(formatClock(data.daily.sunset[0]));
+    }
     
+    // ----------------------------------------
+    // 데이터 로딩 완료
+    //  - 상태 메세지 숨기기
+    //  - 탭바 + 패널 표시
+    // ----------------------------------------
+    function showResult() {
+        $("#statusMsg").prop("hidden", true);
+        $("#tabBar").prop("hidden", false);
+
+        const activeTab = $(".tab-btn.active").data("tab") || "summary";
+        $("#panel-summary").prop("hidden", activeTab !== "summary");
+        $("#panel-hourly").prop("hidden", activeTab !== "hourly");
+    }
+
+
     //| 서울 | 37.5665 | 126.9780 |
     loadWeather(37.5665, 126.9780, "서울");
 
