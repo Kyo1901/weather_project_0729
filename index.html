@@ -21,6 +21,7 @@
 
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="./js/script.js"></script>
 </head>
 <!-- API 를 통해 날씨 데이터를 저장하여 날씨에 따른 배경을 설정 -->
 
@@ -136,7 +137,7 @@
                 </div>
 
                 <!-- 탭 1: 주간 날씨(현재 날씨 카드 기본 골격) -->
-                <div id="panel-summary" class="tab-pannel" role="tabpanel" hidden>
+                <div id="panel-summary" class="tab-pannel" role="tabpanel">
                     <section id="currentCard" class="current-card">
                         <div id="currentContent" class="current-content">
                             <h2 id="loctaionName" class="location">서울</h2>
@@ -189,7 +190,7 @@
 
                 <!-- 탭 2: 시간별 날씨 -->
                 <!--  - 임시 데이터 2개 -->
-                <div id="panel-hourly" class="tab-pannel" role="tabpanel">
+                <div id="panel-hourly" class="tab-pannel" role="tabpanel" hidden>
                     <section class="hourly-list-card">
                         <div id="hourlyList" class="hourly-list">
                             <!-- 첫 번째 시간대 정보 -->
