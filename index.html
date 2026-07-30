@@ -135,7 +135,54 @@
                     <button type="button" class="tab-btn" data-tab="hourly" role="tab" aria-selected="false">시간별 날씨</button>
                 </div>
 
+                <!-- 탭 1: 주간 날씨(현재 날씨 카드 기본 골격) -->
+                <div id="panel-summary" class="tab-pannel" role="tabpanel">
+                    <section id="currentCard" class="current-card">
+                        <div id="currentContent" class="current-content">
+                            <h2 id="loctaionName" class="loctaion">서울</h2>
+                            <p id="updateTime" class="update">2026-07-30 10:15 기준</p>
 
+                            <!-- 날씨 정보 -->
+                            <div class="temp-row">
+                                <img src="./icons/clear-day.svg" alt="" class="weatherIcon weather-icon">
+                                <span id="temperature" class="temp">35°</span>
+                            </div>
+                            <p id="weatherDesc" class="desc">맑음</p>
+
+                            <!-- 하위 정보(체감, 습도, 풍속, 강수확률) -->
+                            <div class="sub-info">
+                                <div class="sub-item">
+                                    <span class="sub-label">체감</span>
+                                    <span id="feelsLike">42°</span>
+                                </div>
+                                <div class="sub-item">
+                                    <span class="sub-label">습도</span>
+                                    <span id="humidity">56%</span>
+                                </div>
+                                <div class="sub-item">
+                                    <span class="sub-label">풍속</span>
+                                    <span id="windSpeed">9 km/h</span>
+                                </div>
+                                <div class="sub-item">
+                                    <span class="sub-label">강수확률</span>
+                                    <span id="precipProb">0%</span>
+                                </div>
+                            </div>
+
+                            <!-- 일출/일몰 정보 -->
+                            <div id="sunInfo" class="sun-info">
+                                <span>🌅일출 <span class="sunriseTime">05:26</span></span>
+                                <span>🌇일몰 <span class="sunsetTime">19:35</span></span>
+                            </div>
+
+                            <!-- 미세먼지/초미세먼지 정보 -->
+                            <div id="airInfo" class="air-info">
+                                <div id="pm10Badge" class="air-badge">미세먼지 좋음</div>
+                                <div id="pm25Badge" class="air-badge">초미세먼지 좋음</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </main>
         </div>
     </div>
