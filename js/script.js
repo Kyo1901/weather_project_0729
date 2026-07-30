@@ -51,7 +51,31 @@ $(function () {
     function showError(msg) {
         showStatus("⚠️ " + msg);
     }
+
+    // ----------------------------------------
+    // Open-Meteo Forecast API 호출
+    // ----------------------------------------
+    function loadWeather(lat, lon, displayName) {
+        showStatus("날씨 정보를 불러오는 중입니다...");
+
+        $.getJSON("https://api.open-meteo.com/v1/forecast", {
+            latitude: lat,
+            longitude: lon,
+            current: "temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m",
+            daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset",
+            forecast_days: 5,
+            timezone:"auto"
+        })
+        .done(function(data) { 
+            showStatus("정상적으로 불러왔습니다!");
+        })
+        .fail(function() { 
+            showError("날씨 정보를 가져오지 못했습니다. 잠시후 다시 시도해주세요.");
+        })
+    }
     
+    //| 서울 | 37.5665 | 126.9780 |
+    loadWeather(37.5665, 126.9780, "서울");
 
     // ----------------------------------------
     // 이벤트 연결
@@ -72,5 +96,7 @@ $(function () {
         $("#panel-summary").prop("hidden", tab !== "summary");
         $("#panel-hourly").prop("hidden", tab !== "hourly");
     });
+    
+    
 
 });
