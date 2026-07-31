@@ -68,6 +68,8 @@ $(function () {
         return "위험";
     }
 
+
+
     // ----------------------------------------
     // 상태 표시
     //  - 로딩/에러 메세지 표시
@@ -205,7 +207,7 @@ $(function () {
                     
                     <!-- 상세 날씨 정보 -->
                     <div class="hour-detail">
-                        <div class="hour-detail-item"><span>바람</span><strong>서북서 7km/h</strong></div>
+                        <div class="hour-detail-item"><span>바람</span><strong>${degToCompass(hourly.wind_direction_10m[idx])} ${safeRound(hourly.wind_speed_10m[idx])}km/h</strong></div>
                         <div class="hour-detail-item"><span>습도</span><strong>${safeRound(hourly.relative_humidity_2m[idx])}%</strong></div>
                         <div class="hour-detail-item"><span>자외선지수</span><strong>${uvText}</strong></div>
                         <div class="hour-detail-item"><span>이슬점</span><strong>${safeRound(hourly.dew_point_2m[idx])}°</strong></div>
@@ -265,8 +267,8 @@ $(function () {
     // loadWeather(37.5665, 126.9780, "서울");
     
     // | 광주 | 35.1595 | 126.8526 |
-    // loadWeather(35.1595, 126.8526, "광주");
-    
+    loadWeather(35.1595, 126.8526, "광주");
+
     
 
 });
