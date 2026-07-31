@@ -635,6 +635,9 @@ body {
 }
 
 .hour-detail-item {
+    /* 6개의 항목 = 2행 3열로 나열 */
+    /*  - 한 줄에 3개씩 두 줄 */
+    /* 각 요소의 크기 = (100% - 간격크기*간격개수) / 요소의수 */
     flex: 0 0 calc((100% - var(--sp-lg) * 2) / 3);
     display: flex;
     flex-direction: column;
