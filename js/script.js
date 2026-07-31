@@ -68,6 +68,25 @@ $(function () {
         return "위험";
     }
 
+    // ----------------------------------------
+    // 화면 전환: 홈 ↔ 상세
+    // ----------------------------------------
+    function showScreen(name) {
+        $("#screen-home").prop("hidden", name !== "home");
+        $("#screen-detail").prop("hidden", name !== "detail");
+
+        // 홈인 경우 홈 테마를 기본 테마로 지정
+        if(name === "home") {
+            $("body").attr("data-weather", "sunny");
+        }
+    }
+
+    // 상세 화면으로 전환
+    function openDetail(lat, lon, name) {
+        showScreen("detail");
+        loadWeather(lat, lon, name);
+    }
+
 
 
     // ----------------------------------------
@@ -243,6 +262,13 @@ $(function () {
         e.preventDefault();
     });
 
+    // 뒤로가기: 상세 화면 → 홈 전환
+    $("#backBtn").on("click", function() {
+        showScreen("home");
+        // 도시별 날씨 리스트 표시
+
+    });
+
     // 탭 전환(주간 날씨(summary) ↔ 시간별 날씨(hourly))
     $("#tabBar").on("click", ".tab-btn", function() {
         
@@ -263,12 +289,7 @@ $(function () {
         row.find(".hour-detail").slideToggle(150);
     });
 
-    //| 서울 | 37.5665 | 126.9780 |
-    // loadWeather(37.5665, 126.9780, "서울");
-    
-    // | 광주 | 35.1595 | 126.8526 |
-    loadWeather(35.1595, 126.8526, "광주");
-
-    
+    // 첫 화면 홈으로 표시
+    showScreen("home");
 
 });
