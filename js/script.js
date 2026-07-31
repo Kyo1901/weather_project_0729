@@ -100,6 +100,27 @@ $(function () {
         $('#precipProb').text(safeRound(data.daily.precipitation_probability_max[0], '%'));
         $('#sunriseTime').text(formatClock(data.daily.sunrise[0]));
         $('#sunsetTime').text(formatClock(data.daily.sunset[0]));
+
+        // 5일 예보 카드를 반복문으로 조립하여 #forecastRow 에 한 번에 작성
+        const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+        let cards = "";
+        for(let i = 0; i < data.daily.time.length; i++) {
+            // i 번째 일차의 날씨 코드로 날씨 정보 반환
+            const dayInfo = getWeatherInfo(data.daily.weather_code[i]);
+            let label = "";
+            if(i === 0) label = "오늘";
+            else if(i === 1) label = "내일";
+            else label = WEEKDAY[new Date(data.daily.time[i]).getDay()];
+            cards +=
+                `<div class="forecast-card">
+                    <p class="forecast-label">${label}</p>
+                    <img src="${dayInfo.icon}" alt="" class="forecast-icon">
+                    <p class="forecast-max">${Math.round(data.daily.temperature_2m_max[i])}°</p>
+                    <p class="forecast-min">${Math.round(data.daily.temperature_2m_min[i])}°</p>
+                    <p class="forecast-precip">☔${safeRound(data.daily.precipitation_probability_max[i])}%</p>
+                </div>`
+        }
+        $("#forecastRow").html(cards);
     }
     
     // ----------------------------------------
