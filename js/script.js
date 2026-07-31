@@ -186,8 +186,8 @@ $(function () {
             const visText = (vis === null || vis === undefined) ? "-" : (vis/1000).toFixed(1) + "km";
 
             rows += 
-                `<div class="hour-row open">
-                    <button type="button" class="hour-row-head" aria-expanded="true">
+                `<div class="hour-row">
+                    <button type="button" class="hour-row-head" aria-expanded="false">
                         <span class="hour-main">
                             <span class="hour-time-col">
                                 <span class="hour-time">${formatHourLabel(hourly.time[idx])}</span>
@@ -215,8 +215,7 @@ $(function () {
                 </div>`
         }   // for(let n...)
 
-        $("#hourlyList").html(rows)
-            // .find(".hourly-row").hide();
+        $("#hourlyList").html(rows).find(".hour-detail").hide();
     }
     
     // ----------------------------------------
@@ -233,9 +232,6 @@ $(function () {
         $("#panel-hourly").prop("hidden", activeTab !== "hourly");
     }
 
-
-    //| 서울 | 37.5665 | 126.9780 |
-    loadWeather(37.5665, 126.9780, "서울");
 
     // ----------------------------------------
     // 이벤트 연결
@@ -256,6 +252,20 @@ $(function () {
         $("#panel-summary").prop("hidden", tab !== "summary");
         $("#panel-hourly").prop("hidden", tab !== "hourly");
     });
+
+    // 시간별 날씨 카드 클릭 → 상세 정보 펼치기/접기
+    $("#hourlyList").on("click", ".hour-row-head", function() {
+        const row = $(this).closest(".hour-row");
+        row.toggleClass("open");
+        $(this).attr("aria-expanded", row.hasClass("open") ? "true" : "false");
+        row.find(".hour-detail").slideToggle(150);
+    });
+
+    //| 서울 | 37.5665 | 126.9780 |
+    // loadWeather(37.5665, 126.9780, "서울");
+    
+    // | 광주 | 35.1595 | 126.8526 |
+    // loadWeather(35.1595, 126.8526, "광주");
     
     
 
