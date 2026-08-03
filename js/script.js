@@ -162,6 +162,51 @@ $(function () {
         })
     }
 
+    function renderWeather(data, displayName) {
+        // 현재 날씨
+        const cur = data.current;
+        const info = getWeatherInfo(cur.weather_code);
+        
+        $("body").attr("data-weather", info.theme);
+       
+        $('#locationName').text(displayName);
+        // 2026-07-30T15:05 → "2026-07-30 15:05기준"
+        $('#updatedTime').text(cur.time.replace('T', ' ') + ' 기준');
+        
+        $('#weatherIcon').attr('src', info.icon);
+        $('#temperature').text(Math.round(cur.temperature_2m) + '°');
+        $('#weatherDesc').text(info.label);
+        $('#feelsLike').text(Math.round(cur.apparent_temperature) + '°');
+        $('#humidity').text(Math.round(cur.relative_humidity_2m) + '%');
+        $('#windSpeed').text(Math.round(cur.wind_speed_10m) + ' km/h');
+        $('#precipProb').text(safeRound(data.daily.precipitation_probability_max[0], '%'));
+        $('#sunriseTime').text(formatClock(data.daily.sunrise[0]));
+        $('#sunsetTime').text(formatClock(data.daily.sunset[0]));
+
+
+        // 5일 예보 카드를 반복문으로 조립하여 #forecastRow 에 한 번에 작성
+        const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+        let cards = "";
+        for(let i = 0; i < data.daily.time.length; i++) {
+            // i 번째 일차의 날씨 코드로 날씨 정보 반환
+            const dayInfo = getWeatherInfo(data.daily.weather_code[i]);
+            let label = "";
+            if(i === 0) label = "오늘";
+            else if(i === 1) label = "내일";
+            else label = WEEKDAY[new Date(data.daily.time[i]).getDay()];
+            cards +=
+                `<div class="forecast-card">
+                    <p class="forecast-label">${label}</p>
+                    <img src="${dayInfo.icon}" alt="" class="forecast-icon">
+                    <p class="forecast-max">${Math.round(data.daily.temperature_2m_max[i])}°</p>
+                    <p class="forecast-min">${Math.round(data.daily.temperature_2m_min[i])}°</p>
+                    <p class="forecast-precip">☔${safeRound(data.daily.precipitation_probability_max[i])}%</p>
+                </div>`
+        }
+        $("#forecastRow").html(cards);
+    }
+
+    // 도시 리스트
     function loadCityList() {
         //HOME_CITIES 내의 도시들의 위도를 하나의 문자열로 연결
         const lats = HOME_CITIES.map(function(name) {return FALLBACK_CITIES[name].lat;}).join(",");
@@ -228,54 +273,6 @@ $(function () {
         .fail(function() { a
             alert("주요 도시 날씨를 불러오지 못했습니다.")
         });
-    }
-    
-
-    // ----------------------------------------
-    // 받아온 데이터 화면에 표시
-    // ----------------------------------------
-    function renderWeather(data, displayName) {
-        // 현재 날씨
-        const cur = data.current;
-        const info = getWeatherInfo(cur.weather_code);
-        
-        $("body").attr("data-weather", info.theme);
-       
-        $('#locationName').text(displayName);
-        // 2026-07-30T15:05 → "2026-07-30 15:05기준"
-        $('#updatedTime').text(cur.time.replace('T', ' ') + ' 기준');
-        
-        $('#weatherIcon').attr('src', info.icon);
-        $('#temperature').text(Math.round(cur.temperature_2m) + '°');
-        $('#weatherDesc').text(info.label);
-        $('#feelsLike').text(Math.round(cur.apparent_temperature) + '°');
-        $('#humidity').text(Math.round(cur.relative_humidity_2m) + '%');
-        $('#windSpeed').text(Math.round(cur.wind_speed_10m) + ' km/h');
-        $('#precipProb').text(safeRound(data.daily.precipitation_probability_max[0], '%'));
-        $('#sunriseTime').text(formatClock(data.daily.sunrise[0]));
-        $('#sunsetTime').text(formatClock(data.daily.sunset[0]));
-
-
-        // 5일 예보 카드를 반복문으로 조립하여 #forecastRow 에 한 번에 작성
-        const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
-        let cards = "";
-        for(let i = 0; i < data.daily.time.length; i++) {
-            // i 번째 일차의 날씨 코드로 날씨 정보 반환
-            const dayInfo = getWeatherInfo(data.daily.weather_code[i]);
-            let label = "";
-            if(i === 0) label = "오늘";
-            else if(i === 1) label = "내일";
-            else label = WEEKDAY[new Date(data.daily.time[i]).getDay()];
-            cards +=
-                `<div class="forecast-card">
-                    <p class="forecast-label">${label}</p>
-                    <img src="${dayInfo.icon}" alt="" class="forecast-icon">
-                    <p class="forecast-max">${Math.round(data.daily.temperature_2m_max[i])}°</p>
-                    <p class="forecast-min">${Math.round(data.daily.temperature_2m_min[i])}°</p>
-                    <p class="forecast-precip">☔${safeRound(data.daily.precipitation_probability_max[i])}%</p>
-                </div>`
-        }
-        $("#forecastRow").html(cards);
     }
 
     // 시간별 날씨 예보
@@ -352,6 +349,95 @@ $(function () {
                     </span>
                 </button>`
     }
+
+    // 내 위치 정보 탐색
+    function loadMyLocation() { 
+        if(!navigator.geolocation) {
+            $("#myLocation").html("<p class='my-location-msg'>이 브라우저는 위치 기능을 지원하지 않습니다.</p>");
+            return;
+        }
+        $("#myLocation").html("<p class='my-location-msg'>내 위치를 찾는 중...</p>");
+
+        // 현재 위치 좌표를 기준으로 날씨 정보 구하기
+        navigator.geolocation.getCurrentPosition(
+            // 성공: 위치 권환을 받아서 위치 정보를 기반으로 날씨 카드 표시
+            function(pos) {
+                // 위도와 경도
+                const lat = pos.coords.latitude.toFixed(4);
+                const lon = pos.coords.longitude.toFixed(4);
+
+                $.getJSON("https://api.open-meteo.com/v1/forecast", {
+                    latitude: lat,
+                    longitude: lon,
+                    current: "temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m",
+                    daily: "precipitation_probability_max,sunrise,sunset",
+                    forecast_days: 5,
+                    timezone:"auto"
+                })
+                .done(function(res) { 
+                    renderMyLocation(res, lat, lon);
+                })
+                .fail(function() {  $("#myLocation").html("<p class='my-location-msg'>내 위치 날씨를 불러오지 못했습니다.</p>");});
+            },
+            // 실패: 권한 부여 실패, 거부 등
+            function() {
+                $("#myLocation").html("<p class='my-location-msg'>위치 권한이 필요합니다. 브라우저 설정을 확인해주세요.</p>")
+            });      
+    }
+
+    function renderMyLocation(res, lat, lon) { 
+        const cur = res.current;
+        const info = getWeatherInfo(cur.weather_code);
+
+
+        $("#myLocation").html(
+            `<div class="current-card my-location-card data-name="📍 내 위치" data-lat="${lat}" data-lon="${lon}">
+                <div class="current-content">
+                    <h2 class="location">📍 내 위치</h2>
+                    <p class="updated">${cur.time.replace("T", " ") + "기준"}</p>
+
+                    <div class="temp-row">
+                        <img src="${info.icon}" alt="" class=" weather-icon">
+                        <span class="temp">${safeRound(cur.temperature_2m)}°</span>
+                    </div>
+                    <p class="desc">${info.label}</p>
+
+                    <div class="sub-info">
+                        <div class="sub-item">
+                            <span class="sub-label">체감</span>
+                            <span>${safeRound(cur.apparent_temperature)}°</span>
+                        </div>
+                        <div class="sub-item">
+                            <span class="sub-label">습도</span>
+                            <span>${safeRound(cur.relative_humidity_2m)}%</span>
+                        </div>
+                        <div class="sub-item">
+                            <span class="sub-label">풍속</span>
+                            <span>${safeRound(cur.wind_speed_10m)}km/h</span>
+                        </div>
+                        <div class="sub-item">
+                            <span class="sub-label">강수확률</span>
+                            <span>${safeRound(res.daily.precipitation_probability_max[0])}%</span>
+                        </div>
+                    </div>
+
+                    <!-- 일출/일몰 정보 -->
+                    <div id="sunInfo" class="sun-info">
+                        <span>🌅일출 <span>${formatClock(res.daily.sunrise[0])}</span></span>
+                        <span>🌇일몰 <span>${formatClock(res.daily.sunset[0])}</span></span>
+                    </div>
+
+                    <!-- 미세먼지/초미세먼지 정보 -->
+                    <div id="airInfo" class="air-info">
+                        <div class="air-badge grade-good">미세먼지 -</div>
+                        <div class="air-badge grade-bad">초미세먼지 -</div>
+                    </div>
+                </div>
+            </div>`
+        );
+
+    }
+
     
     // ----------------------------------------
     // 데이터 로딩 완료
@@ -414,6 +500,10 @@ $(function () {
     $("#searchForm").on("submit", function(e) {
         e.preventDefault();
         searchCity($("#cityInput").val());
+    });
+
+    $("#myLocation").on("click", ".my-location-btn", function() {
+        loadMyLocation();
     });
 
     // 도시 리스트 행/최고최저 기온 카드 → 상세 화면
