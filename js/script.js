@@ -197,14 +197,37 @@ $(function () {
                         );
 
                 // 최고/최소 기온 검사 및 저장
-                if(results[i].daily.temperature_2m_max[0] > results[hotIdx].daily.temperature_2m_max) {
+                if(results[i].daily.temperature_2m_max[0] > results[hotIdx].daily.temperature_2m_max[0]) {
                     hotIdx = i;
                 }
-                if(results[i].daily.temperature_2m_min[0] < results[coldIdx].daily.temperature_2m_max) {
+                if(results[i].daily.temperature_2m_min[0] < results[coldIdx].daily.temperature_2m_min[0]) {
                     coldIdx = i;
                 }
             }
             $("#cityList").html(rows);
+
+            // 오늘의 전국 최고/최저 기온 2개
+            const hotName = HOME_CITIES[hotIdx];
+            const coldName = HOME_CITIES[coldIdx];
+            const hotCity = FALLBACK_CITIES[hotName];
+            const coldCity = FALLBACK_CITIES[coldName];
+
+            $("#hotCity").data({
+                name:hotName,
+                lat:hotCity.lat,
+                lon:hotCity.lon
+            });
+            $("#hotCity .extream-value")
+                .html(hotName + " " + safeRound(results[hotIdx].daily.temperature_2m_max[0]) + "°");
+                
+                
+            $("#coldCity")
+                .data({name: coldName, lat:coldCity.lat, lon:coldCity.lon})
+                .find(".extream-value")
+                .html(coldName + " " + safeRound(results[coldIdx].daily.temperature_2m_min[0]) + "°");
+
+
+
         })
         .fail(function() { a
             alert("주요 도시 날씨를 불러오지 못했습니다.")
