@@ -506,8 +506,8 @@ $(function () {
         loadMyLocation();
     });
 
-    // 도시 리스트 행/최고최저 기온 카드 → 상세 화면
-    $(".page-content").on("click", ".city-row, .extream-card", function() {
+    // 도시 리스트 행/최고최저 기온 카드/내 위치 카드 → 상세 화면
+    $(".page-content").on("click", ".city-row, .extream-card, .my-location-card", function() {
         const btn = $(this);
         openDetail(btn.data("lat"), btn.data("lon"), btn.data("name"));
     });
