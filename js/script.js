@@ -391,7 +391,7 @@ $(function () {
 
 
         $("#myLocation").html(
-            `<div class="current-card my-location-card data-name="📍 내 위치" data-lat="${lat}" data-lon="${lon}">
+            `<div class="current-card my-location-card" data-name="📍 내 위치" data-lat="${lat}" data-lon="${lon}">
                 <div class="current-content">
                     <h2 class="location">📍 내 위치</h2>
                     <p class="updated">${cur.time.replace("T", " ") + "기준"}</p>
