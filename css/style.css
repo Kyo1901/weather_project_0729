@@ -188,6 +188,17 @@ body {
     padding: var(--sp-md);
 }
 
+.current-card.my-location-card {
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(38, 49, 60, 0.08);
+    transition: transform, box-shadow 200ms;
+}
+
+.current-card.my-location-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(38, 49, 60, 0.1);
+}
+
 /* 전국 최고/최저 기온 */
 .extream-row {
     display: flex;
@@ -275,7 +286,8 @@ body {
 
 /* 모바일 환경에서의 터치 반응 */
 .extream-card:active,
-.city-row:active {
+.city-row:active,
+.current-card.my-location-card:active {
     transform: scale(0.98);
     box-shadow: 0 2px 8px rgba(38, 49, 60, 0.1);
 }
@@ -659,4 +671,58 @@ body {
 }
 .footer-detail a {
     color: var(--color-white);
+}
+
+/* PC 화면에서 여유있게 표시 */
+@media screen and (min-width: 600px) {
+    .app,
+    .hero-inner,
+    .page-content-inner {
+        max-width: 520px;
+    }
+
+    /* CSS 변수 재설정 */
+    :root {
+        --fs-hero: 2.6rem;
+        --fs-temp: 3.8rem;
+    }
+}
+
+@media screen and (min-width:768px) {
+    /* 도시 리스트 2열 */
+    .city-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .city-list > .city-row {
+        flex: 0 0 calc((100% - var(--sp-md)) / 2);
+    }
+}
+
+@media screen and (min-width:1080px) {
+    /* 홈 */
+    .hero-inner { max-width: 560px; }
+    .page-content-inner { max-width: 1080px;}
+    
+    /* 내위치/전국 최고/최저 기온 */
+    .home-top { 
+        display: flex;
+        gap: var(--sp-xl);
+        align-items: flex-start;
+    }
+    .home-top > * {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+    .home-top-right .section-title {
+        margin-top: 0;
+    }
+
+    /* 도시 리스트 4 * 2 나열 */
+
+
+    /* 주간 탭: 현재 날씨 카드 | 5일 예보를 2열로 배치 */
+
+    
 }
