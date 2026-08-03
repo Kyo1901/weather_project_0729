@@ -176,8 +176,39 @@ $(function () {
             forecast_days: 1,
             timezone:"auto"
         })        
-        .done(function(results) { alert("주요 도시 날씨들을 불러습니다!"); })
-        .fail(function() { alert("주요 도시 날씨를 불러오지 못했습니다.")});
+        .done(function(results) { 
+            let rows = "";
+            // 오늘 최고 기온이 가장 높은 도시의 인덱스
+            let hotIdx = 0;
+            // 오늘 최저 기온이 가장 낮은 도시의 인덱스
+            let coldIdx = 0;
+
+            for(let i = 0; i < results.length; i++) {
+                const name = HOME_CITIES[i];
+                const city = FALLBACK_CITIES[name];
+
+                // 각 도시 정보를 기반으로 HTML 형식의 코드를 생성
+                rows += cityRowHTML(
+                            name, 
+                            city.lat, 
+                            city.lon, 
+                            results[i].current.weather_code,
+                            results[i].current.temperature_2m
+                        );
+
+                // 최고/최소 기온 검사 및 저장
+                if(results[i].daily.temperature_2m_max[0] > results[hotIdx].daily.temperature_2m_max) {
+                    hotIdx = i;
+                }
+                if(results[i].daily.temperature_2m_min[0] < results[coldIdx].daily.temperature_2m_max) {
+                    coldIdx = i;
+                }
+            }
+            $("#cityList").html(rows);
+        })
+        .fail(function() { a
+            alert("주요 도시 날씨를 불러오지 못했습니다.")
+        });
     }
     loadCityList();
 
@@ -289,14 +320,14 @@ $(function () {
     }
 
     // 주요 도시 항목 HTML 생성
-    function cityRowHTML(name, lat, long, weatherCode, temp) {
+    function cityRowHTML(name, lat, lon, weatherCode, temp) {
         const info = getWeatherInfo(weatherCode);
 
-        return `<button type="button" class="city-row">
-                    <span class="city-row-name">서울</span>
+        return `<button type="button" class="city-row" data-name="${name}" data-lat="${lat}" data-lon="${lon}">
+                    <span class="city-row-name">${name}</span>
                     <span class="city-row-weather">
-                        <img src="./icons/rain.svg" alt="" class="city-row-icon">
-                        <span class="city-row-temp">28°</span>
+                        <img src="${info.icon}" alt="" class="city-row-icon">
+                        <span class="city-row-temp">${safeRound(temp)}°</span>
                         <span class="city-row-chevron">›</span>
                     </span>
                 </button>`
