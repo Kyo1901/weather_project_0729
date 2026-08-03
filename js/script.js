@@ -220,20 +220,16 @@ $(function () {
             $("#hotCity .extream-value")
                 .html(hotName + " " + safeRound(results[hotIdx].daily.temperature_2m_max[0]) + "°");
                 
-                
             $("#coldCity")
                 .data({name: coldName, lat:coldCity.lat, lon:coldCity.lon})
                 .find(".extream-value")
                 .html(coldName + " " + safeRound(results[coldIdx].daily.temperature_2m_min[0]) + "°");
-
-
-
         })
         .fail(function() { a
             alert("주요 도시 날씨를 불러오지 못했습니다.")
         });
     }
-    loadCityList();
+    
 
     // ----------------------------------------
     // 받아온 데이터 화면에 표시
@@ -379,11 +375,17 @@ $(function () {
         e.preventDefault();
     });
 
+    // 도시 리스트 행/최고최저 기온 카드 → 상세 화면
+    $(".page-content").on("click", ".city-row, .extream-card", function() {
+        const btn = $(this);
+        openDetail(btn.data("lat"), btn.data("lon"), btn.data("name"));
+    });
+
     // 뒤로가기: 상세 화면 → 홈 전환
     $("#backBtn").on("click", function() {
         showScreen("home");
         // 도시별 날씨 리스트 표시
-
+        loadCityList();
     });
 
     // 탭 전환(주간 날씨(summary) ↔ 시간별 날씨(hourly))
@@ -408,5 +410,5 @@ $(function () {
 
     // 첫 화면 홈으로 표시
     showScreen("home");
-
+    loadCityList();
 });
